@@ -1,0 +1,3 @@
+﻿  libe6.cpp
+D:\BSUIR\ОаИП\лабы 1 семестр\лаба 6\libe6\libe6\libe6.cpp(24,13): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  libe6.vcxproj -> D:\BSUIR\ОаИП\лабы 1 семестр\лаба 6\libe6\x64\Debug\libe6.exe
