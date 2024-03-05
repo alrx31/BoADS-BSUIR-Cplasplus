@@ -17,10 +17,9 @@ class Queue {
 	};
 
 	Node* head;
-	Node* tail;
 	int size;
 public:
-	Queue() : head(nullptr), tail(nullptr), size(0) {}
+	Queue() : head(nullptr), size(0) {}
 	~Queue() {
 		while (head) {
 			Node* temp = head;
@@ -30,11 +29,14 @@ public:
 	}
 	void push(T data) {
 		if (head == nullptr) {
-			head = tail = new Node(data);
+			head = new Node(data);
 		}
 		else {
-			tail->setNext(new Node(data));
-			tail = tail->getNext();
+			Node* current = head;
+			while (current->getNext() != nullptr) {
+				current = current->getNext();
+			}
+			current->setNext(new Node(data));
 		}
 		size++;
 	}
@@ -54,13 +56,6 @@ public:
 			throw "Queue is empty";
 		}
 		return head->getData();
-	}
-	T shift() {
-		if (tail == nullptr) {
-			throw "Queue is empty";
-		}
-		return tail->getData();
-		
 	}
 	int getSize() {
 		return size;
@@ -95,7 +90,6 @@ int main() {
 
 	cout << "Odd queue: " << endl;
 	cout << "Head: " << odd.front() << endl;
-	cout << "Tail: " << odd.shift() << endl;
 	size_t size1 = odd	.getSize();
 	for (int i = 0; i < size1; i++) {
 		cout << odd.pop() << " ";
@@ -106,7 +100,6 @@ int main() {
 	
 	cout << "Even queue: " << endl;
 	cout << "Head: " << even.front() << endl;
-	cout << "Tail: " << even.shift() << endl;
 	size_t size2 = even.getSize();
 	for (int i = 0; i < size2; i++) {
 		cout << even.pop() << " ";
