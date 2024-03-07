@@ -147,6 +147,16 @@ int main() {
 		cout << solveOPZ(arrExp[i]) << endl << endl;
 	}
 
+	ofstream file("output.txt");
+	if (file.is_open()) {
+
+		for (int i = 0; i < 10; i++) {
+			file << solveOPZ(arrExp[i]) << endl;
+		}
+		file.close();
+	}
+	
+
 
 
 
