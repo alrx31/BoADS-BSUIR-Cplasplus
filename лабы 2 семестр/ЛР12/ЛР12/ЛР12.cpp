@@ -77,6 +77,7 @@ int main() {
 	Queue<int > odd;
 	Queue<int > even;
 
+
 	for (int i = 0; i < 10; i++) {
 		if ((i + 1)% 2 == 0) {
 			even.push(arr[i]);

@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <string>
+#include <fstream>
+
 using namespace std;
 
 template <typename T>
@@ -8,8 +10,8 @@ class Stack {
 		T data;
 		Node* prev;
 	public:
-		Node(): prev(nullptr) {}
-		Node(T data, Node* node): data (data), prev(node) {}
+		Node() : prev(nullptr) {}
+		Node(T data, Node* node) : data(data), prev(node) {}
 		T getData() { return data; }
 		Node* getPrev() { return prev; }
 		void setPrev(Node* prev) { this->prev = prev; }
@@ -19,13 +21,20 @@ class Stack {
 	Node* tail;
 	int size;
 public:
-	Stack(): tail(nullptr), size(0) {}
-	void push(T data){
+	Stack() : tail(nullptr), size(0) {}
+	~Stack() {
+		while (tail != nullptr) {
+			Node* temp = tail;
+			tail = tail->getPrev();
+			delete temp;
+		}
+	}
+	void push(T data) {
 		if (tail == nullptr) {
-			tail = new Node(data,nullptr);
+			tail = new Node(data, nullptr);
 		}
 		else {
-			Node* newNode = new Node(data,tail);
+			Node* newNode = new Node(data, tail);
 			tail = newNode;
 		}
 		size++;
@@ -61,7 +70,7 @@ float solveOPZ(string expression) {
 		if (expression[i] == ' ') {
 			continue;
 		}
-		int x = expression[i] -'0';
+		int x = expression[i] - '0';
 		if (expression[i] >= '0' && expression[i] <= '9') {
 			float number = 0;
 			while (expression[i] != ' ' && i < expression.size()) {
@@ -75,47 +84,79 @@ float solveOPZ(string expression) {
 			float b = stack.pop();
 			switch (expression[i]) {
 			case '+': {
-					stack.push(a + b);
-					break;
-				}
+				stack.push(a + b);
+				break;
+			}
 			case '-': {
-					stack.push(b - a);
-					break;
-				}
+				stack.push(b - a);
+				break;
+			}
 			case '*': {
-					stack.push(a * b);
-					break;
-				}
+				stack.push(a * b);
+				break;
+			}
 			case '/': {
 				if (a == 0) {
-						throw "Division by zero";
-					}
-					stack.push(b/ a);
-					break;
+					cout << "error devision to zero";
+					return -1;
 				}
+				stack.push(b / a);
+				break;
+			}
 			}
 		}
-
-
 	}
+
+
 	if (stack.isEmpty()) {
-		throw "Invalid expression";
+		cout << "Stack is empty" << endl;
 		return -1;
 	}
 	else {
-		return stack.pop();
+		float result = stack.pop();
+		stack.~Stack();
+		return result;
 	}
+
 }
 
 
+string* getExpressionFromFile() {
+	ifstream file("input.txt");
+	if (file.is_open()) {
+		string* expression = new string[10];
+		string temp;
+		int i = 0;
+		while (getline(file, temp)) {
+			expression[i++] = temp;
+		}
+		return expression;
+		file.close();
+	}
+	else {
+		throw "File not found";
+	}
 
+}
 
 int main() {
+	string* arrExp = getExpressionFromFile();
+	//print arrExp
+	for (int i = 0; i < 10; i++) {
+		cout << arrExp[i] << endl;
+		cout << solveOPZ(arrExp[i]) << endl << endl;
+	}
+
+
+
 
 	string expression1 = "3 1 +";
 	string expression2 = "12 5 * 10 -";
 	string expression3 = "1 2 30 + *";
 	string expression4 = "2 10 + 2 4 + 6 – 2 /";
+	if (expression4 == arrExp[3]) {
+		cout << "123213" << endl;
+	}
 
 
 	cout << solveOPZ(expression1) << endl;
@@ -136,7 +177,7 @@ int main() {
 	else {
 		cout << "Test 2 failed" << endl;
 	}
-		
+
 	if (solveOPZ(expression3) == 32) {
 		cout << "Test 3 passed" << endl;
 	}
@@ -145,7 +186,7 @@ int main() {
 	}
 
 	if (solveOPZ(expression4) == 6) {
-		cout << "Test 4 passed" << endl;
+		cout << "Test 4 passed" << solveOPZ(expression4)<< endl;
 	}
 	else {
 		cout << "Test 4 failed" << endl;
