@@ -153,7 +153,7 @@ int main() {
 	string expression1 = "3 1 +";
 	string expression2 = "12 5 * 10 -";
 	string expression3 = "1 2 30 + *";
-	string expression4 = "2 10 + 2 4 + 6 – 2 /";
+	string expression4 = "2 10 + 2 4 + 6 - 2 /";
 	if (expression4 == arrExp[3]) {
 		cout << "123213" << endl;
 	}
