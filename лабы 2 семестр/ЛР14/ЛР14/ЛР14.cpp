@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+
 using namespace std;
 template <typename T>
 class Tree {
@@ -59,19 +60,6 @@ public:
 		}
 	}
 
-	/*TreeNode* getNeedNode(TreeNode* node) {
-		//if (!isOperator(node->getData())) {
-			if (node->getLeft() != nullptr) return node->getLeft();
-			if(node->getRight() != nullptr) return node->getRight();
-			return nullptr;
-		}
-		else {
-
-		}
-
-	}*/
-
-
 	string getNewExp() {
 		return createExp(root);
 	}
@@ -83,7 +71,10 @@ public:
 		}
 		string left = createExp(node->getLeft());
 		string right = createExp(node->getRight());
-		cout << left << "\t " << right  << "\t " << node->getData() << endl;
+		//cout << left << "\t " << right  << "\t " << node->getData() << endl;
+		if(left.size() == 1 && right.size() != 1) return left + " " + node->getData() + " (" + right + ")";
+		if(right.size() == 1 && left.size() != 1) return "(" + left + ") " + node->getData() + " " + right;
+		if(left.size() != 1 && right.size() != 1) return "(" + left + ") " + node->getData() + " (" + right + ")";
 		return left + " " + node->getData() + " " + right;
 	}
 
@@ -106,6 +97,14 @@ public:
 
 
 
+int getPriority(char c) {
+	if (c == '+' || c == '-') return 1;
+	if (c == '*' || c == '/') return 2;
+	cout << "Error" << endl;
+	return 0;
+}
+
+
 //1 2 - 3 4 /5 6 / + +
 //1-2+3/4+5/6
 //
@@ -119,24 +118,24 @@ int main()
 	Tree<char> tree;
 	
 	
-		string expression = "3 1 +";
+	string expression = "3 1 +";
 	string expression2 = "1 2 - 3 4 /5 6 / + +";
 	string expression3 = "1 2 + 3 4 - *";
 	
 	
 	cout << expression << endl;
 	tree.Create(expression);
-	cout << tree.getNewExp() << endl;
+	cout << tree.getNewExp() << endl << endl;
 	
 	Tree<char> tree2;
 	cout << expression2 << endl;
 	tree2.Create(expression2);
-	cout << tree2.getNewExp() << endl;
+	cout << tree2.getNewExp() << endl << endl;
 
 	Tree<char> tree3;
 	cout << expression3 << endl;
 	tree3.Create(expression3);
-	cout << tree3.getNewExp() << endl;
+	cout << tree3.getNewExp() << endl << endl;
 	
 
 	return 0;
