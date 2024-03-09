@@ -34,17 +34,27 @@ public:
 
 	void Create(string expression) {
 		int countOperators = 1;
+
 		for (int i = 0; i < expression.size(); i++) {
 			if (expression[i] == ' ') continue;
-			TreeNode* node = new TreeNode(expression[i]);
+			string s = "";
+			while (expression[i] != ' ' && i < expression.size()) {
+				s += expression[i];
+				i++;
+			}
+			TreeNode* node = new TreeNode(s);
 			if (isOperator(node->getData())) {
 				node->setRight(root);
 				TreeNode* needNode = root;
+				
 				if (isOperator(root->getData())) {
 					for (int j = 0; j < countOperators; j++) {
 						needNode = needNode->getLeft();
+						if (isOperator(needNode->getData())) {
+							countOperators++;
+						}
+
 					}
-					countOperators++;
 				}
 				else {
 					needNode = root;
@@ -67,19 +77,36 @@ public:
 	string createExp(TreeNode* node) {
 		if (node == nullptr) return "";
 		if (node->getLeft() == nullptr && node->getRight() == nullptr) {
-			return string(1,node->getData());
+			return node->getData();
 		}
 		string left = createExp(node->getLeft());
 		string right = createExp(node->getRight());
 		//cout << left << "\t " << right  << "\t " << node->getData() << endl;
-		if(left.size() == 1 && right.size() != 1) return left + " " + node->getData() + " (" + right + ")";
+		int leftOperatorLevel = 3;
+		int rightOperatorLevel = 3;
+		if (isOperator(node->getData())) {
+			leftOperatorLevel = getPriority(node->getLeft()->getData());
+			rightOperatorLevel = getPriority(node->getRight()->getData());
+		}
+		int currentOperatorLevel = getPriority(node->getData());
+		if (leftOperatorLevel < currentOperatorLevel) {
+			left = "(" + left + ")";
+		}
+		if (rightOperatorLevel < currentOperatorLevel) {
+			right = "(" + right + ")";
+		}
+		return left + " " + node->getData() + " " + right;
+		
+		
+		
+		/*if(left.size() == 1 && right.size() != 1) return left + " " + node->getData() + " (" + right + ")";
 		if(right.size() == 1 && left.size() != 1) return "(" + left + ") " + node->getData() + " " + right;
 		if(left.size() != 1 && right.size() != 1) return "(" + left + ") " + node->getData() + " (" + right + ")";
-		return left + " " + node->getData() + " " + right;
+		return left + " " + node->getData() + " " + right;*/
 	}
 
-	bool isOperator(char c) {
-		return c == '+' || c == '-' || c == '*' || c == '/';
+	bool isOperator(string c) {
+		return c == "+" || c == "-" || c == "*" || c == "/";
 	}
 
 	void Clear(TreeNode* node) {
@@ -92,18 +119,12 @@ public:
 	TreeNode* getRoot() {
 		return root;
 	}
+	int getPriority(string c) {
+		if (c == "+" || c == "-") return 1;
+		if (c == "*" || c == "/") return 2;
+		return 3;
+	}
 };
-
-
-
-
-int getPriority(char c) {
-	if (c == '+' || c == '-') return 1;
-	if (c == '*' || c == '/') return 2;
-	cout << "Error" << endl;
-	return 0;
-}
-
 
 //1 2 - 3 4 /5 6 / + +
 //1-2+3/4+5/6
@@ -115,28 +136,41 @@ int getPriority(char c) {
 
 int main()
 {
-	Tree<char> tree;
+	Tree<string> tree;
 	
 	
 	string expression = "3 1 +";
 	string expression2 = "1 2 - 3 4 /5 6 / + +";
 	string expression3 = "1 2 + 3 4 - *";
-	
+	string expression4 = "1 2 + 1 * 4 6 + 2 * +";
 	
 	cout << expression << endl;
 	tree.Create(expression);
 	cout << tree.getNewExp() << endl << endl;
 	
-	Tree<char> tree2;
+	Tree<string> tree2;
 	cout << expression2 << endl;
 	tree2.Create(expression2);
 	cout << tree2.getNewExp() << endl << endl;
 
-	Tree<char> tree3;
+	Tree<string> tree3;
 	cout << expression3 << endl;
 	tree3.Create(expression3);
 	cout << tree3.getNewExp() << endl << endl;
+
+	Tree<string> tree4;
+	cout << expression4 << endl;
+	tree4.Create(expression4);
+	cout << tree4.getNewExp() << endl << endl;
 	
+
+
+	Tree<string> tree5;
+	cout << "enter reverse polish notation: ";
+	string expression5;
+	getline(cin, expression5);
+	tree5.Create(expression5);
+	cout << tree5.getNewExp() << endl << endl;
 
 	return 0;
 }
