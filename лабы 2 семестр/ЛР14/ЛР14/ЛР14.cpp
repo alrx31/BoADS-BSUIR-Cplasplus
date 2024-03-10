@@ -99,10 +99,7 @@ public:
 		
 		
 		
-		/*if(left.size() == 1 && right.size() != 1) return left + " " + node->getData() + " (" + right + ")";
-		if(right.size() == 1 && left.size() != 1) return "(" + left + ") " + node->getData() + " " + right;
-		if(left.size() != 1 && right.size() != 1) return "(" + left + ") " + node->getData() + " (" + right + ")";
-		return left + " " + node->getData() + " " + right;*/
+	
 	}
 
 	bool isOperator(string c) {
@@ -125,12 +122,6 @@ public:
 		return 3;
 	}
 };
-
-//1 2 - 3 4 /5 6 / + +
-//1-2+3/4+5/6
-//
-
-
 
 
 
