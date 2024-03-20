@@ -151,6 +151,7 @@ int main() {
 	if (file.is_open()) {
 
 		for (int i = 0; i < 10; i++) {
+			if (solveOPZ(arrExp[i]) == -1) continue;
 			file << solveOPZ(arrExp[i]) << endl;
 		}
 		file.close();
