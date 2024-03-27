@@ -20,13 +20,6 @@ class Queue {
 	int size;
 public:
 	Queue() : head(nullptr), size(0) {}
-	~Queue() {
-		while (head) {
-			Node* temp = head;
-			head = head->getNext();
-			delete temp;
-		}
-	}
 	void push(T data) {
 		if (head == nullptr) {
 			head = new Node(data);
@@ -63,6 +56,35 @@ public:
 	bool isEmpty() {
 		return size == 0;
 	}
+	Node* get(int in) {
+		Node* cur = head;
+		if (in > size || in < 0) return nullptr;
+		for (int i = 0; i < in; i++) {
+			cur = cur->getNext();
+		}
+		return cur;
+	}
+
+
+	void BubleSort() {
+		/*for (int i = 0; i < size; i++)
+		{
+			Node* temp = head;
+			Node* prev = nullptr;
+
+			for (int j = 0; j < size-1 ; j++) {
+				if (temp->getData() < temp->getNext()->getData()){
+					if (prev != nullptr) {
+
+					}
+				}
+
+				prev = temp;
+				temp = temp->getNext();
+			}
+		}*/
+
+	}
 };
 
 
@@ -78,12 +100,12 @@ int main() {
 	Queue<int > even;
 
 
-	for (int i = 0; i < 10; i++) {
-		if ((i + 1)% 2 == 0) {
-			even.push(arr[i]);
+	for (int i = 1; i < 11; i++) {
+		if ((i )% 2 == 0) {
+			even.push(arr[i-1]);
 		}
 		else {
-			odd.push(arr[i]);
+			odd.push(arr[i-1]);
 		}
 	}
 
@@ -91,7 +113,7 @@ int main() {
 
 	cout << "Odd queue: " << endl;
 	cout << "Head: " << odd.front() << endl;
-	size_t size1 = odd	.getSize();
+	size_t size1 = odd.getSize();
 	for (int i = 0; i < size1; i++) {
 		cout << odd.pop() << " ";
 	}
@@ -101,11 +123,19 @@ int main() {
 	
 	cout << "Even queue: " << endl;
 	cout << "Head: " << even.front() << endl;
+
+	even.BubleSort();
+
 	size_t size2 = even.getSize();
 	for (int i = 0; i < size2; i++) {
 		cout << even.pop() << " ";
 	}
 	cout << endl;
+
+
+
+
+
 
 	return 0;
 }
