@@ -56,33 +56,51 @@ public:
 	bool isEmpty() {
 		return size == 0;
 	}
-	Node* get(int in) {
-		Node* cur = head;
-		if (in > size || in < 0) return nullptr;
-		for (int i = 0; i < in; i++) {
-			cur = cur->getNext();
-		}
-		return cur;
+	T tail() {
+		if (head == nullptr) throw "queue is empty";
+		Node* temp = head;
+		for (int i = 0; i < size - 1; i++) temp = temp->getNext();
+		return temp->getData();
 	}
 
+	void swapIFNaC(Node* prev, Node* curr, Node* next, Node* H) {
+		if (curr != nullptr && next != nullptr && curr->getData() < next->getData()) {
+			if (prev == nullptr) {
+				Node* temp = curr;
+				curr->setNext(next->getNext());
+				next->setNext(temp);
+				head = next;
+			}
+			else {
+				Node* temp = curr;
+				prev->setNext(curr->getNext());
+				temp->setNext(temp->getNext()->getNext());
+				prev->getNext()->setNext(temp);
+			}
+		}
+		else {
+			return;
+		}
+		
+	}
 
 	void BubleSort() {
-		/*for (int i = 0; i < size; i++)
-		{
-			Node* temp = head;
-			Node* prev = nullptr;
+		if (head == nullptr) return;
+		Node* prev;
+		Node* curr;
 
-			for (int j = 0; j < size-1 ; j++) {
-				if (temp->getData() < temp->getNext()->getData()){
-					if (prev != nullptr) {
+		for (int i = 0; i < size; i++) {
+			prev = nullptr;
+			curr = head;
 
-					}
-				}
-
-				prev = temp;
-				temp = temp->getNext();
+			for (int j = 0; j < size; j++) {
+				if (curr == nullptr) break;
+				swapIFNaC(prev, curr, curr->getNext(), head);
+				prev = curr;
+				curr = curr->getNext();
 			}
-		}*/
+		}
+
 
 	}
 };
@@ -90,9 +108,9 @@ public:
 
 int main() {
 
-	int* arr = new int[10];
+	int* arr = new int[20];
 
-	for (int i = 1; i < 11; i++) {
+	for (int i = 1; i < 21; i++) {
 		arr[i-1] = i;
 	}
 
@@ -100,7 +118,7 @@ int main() {
 	Queue<int > even;
 
 
-	for (int i = 1; i < 11; i++) {
+	for (int i = 1; i < 21; i++) {
 		if ((i )% 2 == 0) {
 			even.push(arr[i-1]);
 		}
@@ -113,7 +131,10 @@ int main() {
 
 	cout << "Odd queue: " << endl;
 	cout << "Head: " << odd.front() << endl;
+	cout << "Tail: " << odd.tail() << endl;
 	size_t size1 = odd.getSize();
+	odd.BubleSort();
+
 	for (int i = 0; i < size1; i++) {
 		cout << odd.pop() << " ";
 	}
@@ -123,8 +144,9 @@ int main() {
 	
 	cout << "Even queue: " << endl;
 	cout << "Head: " << even.front() << endl;
-
+	cout << "Tail: " << even.tail() << endl;
 	even.BubleSort();
+
 
 	size_t size2 = even.getSize();
 	for (int i = 0; i < size2; i++) {
@@ -132,7 +154,8 @@ int main() {
 	}
 	cout << endl;
 
-
+	Queue<bool> t;
+	t.BubleSort();
 
 
 
