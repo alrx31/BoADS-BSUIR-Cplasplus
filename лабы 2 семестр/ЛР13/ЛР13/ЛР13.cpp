@@ -48,6 +48,35 @@ public:
 		size--;
 		return data;
 	}
+	T PrePop() {
+		
+		if (size == 0) {
+			throw "Stack is empty";
+		}
+		if (size == 1) {
+			T data = tail->getData();
+			tail = nullptr;
+			return data;
+		}
+		int s = size;
+		T *datas = new T[s];
+		T data;
+		for (int i = 0; i < s-2; i++) {
+			datas[i] = pop();
+		}
+		data = peek();
+		for (int i = s-3; i >= 0; i--) {
+			push(datas[i]);
+		}
+		return data;
+
+		/*
+		T data = tail->getPrev()->getData();
+		tail->setPrev(tail->getPrev()->getPrev());
+		size--;
+		return data;*/
+	}
+
 
 	T peek() {
 		if (size == 0) {
@@ -82,6 +111,8 @@ float solveOPZ(string expression) {
 		else {
 			float a = stack.pop();
 			float b = stack.pop();
+
+
 			switch (expression[i]) {
 			case '+': {
 				stack.push(a + b);
@@ -147,7 +178,7 @@ int main() {
 		cout << solveOPZ(arrExp[i]) << endl << endl;
 	}
 
-	ofstream file("output.txt");
+	ofstream file("output.txt", ios::out | ios::trunc);
 	if (file.is_open()) {
 
 		for (int i = 0; i < 10; i++) {
@@ -211,6 +242,18 @@ int main() {
 	cout << "Result : " << solveOPZ(expression) << endl;
 
 
+
+	cout << endl << endl;
+
+	Stack<int> st;
+	for (int i = 0; i < 10; i++) {
+		st.push(i);
+	}
+	// 9 8 7 6 5 4 3 2 1 0
+
+	for (int i = 0; i < 10; i++) {
+		cout << st.PrePop() << " ";
+	}
 
 	return 0;
 }

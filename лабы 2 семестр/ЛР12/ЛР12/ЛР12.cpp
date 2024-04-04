@@ -78,9 +78,6 @@ public:
 				prev->getNext()->setNext(temp);
 			}
 		}
-		else {
-			return;
-		}
 		
 	}
 
@@ -108,9 +105,9 @@ public:
 
 int main() {
 
-	int* arr = new int[20];
+	int* arr = new int[10];
 
-	for (int i = 1; i < 21; i++) {
+	for (int i = 1; i < 11; i++) {
 		arr[i-1] = i;
 	}
 
@@ -118,8 +115,8 @@ int main() {
 	Queue<int > even;
 
 
-	for (int i = 1; i < 21; i++) {
-		if ((i )% 2 == 0) {
+	for (int i = 1; i < 11; i++) {
+		if (i% 2 == 0) {
 			even.push(arr[i-1]);
 		}
 		else {
@@ -133,7 +130,6 @@ int main() {
 	cout << "Head: " << odd.front() << endl;
 	cout << "Tail: " << odd.tail() << endl;
 	size_t size1 = odd.getSize();
-	odd.BubleSort();
 
 	for (int i = 0; i < size1; i++) {
 		cout << odd.pop() << " ";
@@ -146,7 +142,8 @@ int main() {
 	cout << "Head: " << even.front() << endl;
 	cout << "Tail: " << even.tail() << endl;
 	even.BubleSort();
-
+	cout << "Head: " << even.front() << endl;
+	cout << "Tail: " << even.tail() << endl;
 
 	size_t size2 = even.getSize();
 	for (int i = 0; i < size2; i++) {
